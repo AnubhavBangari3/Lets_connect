@@ -1,0 +1,27 @@
+{% extends 'Profile/layout.html' %}{% load static %} {% block title %}search result{% endblock %} {% block body %}
+<div class="search_name">
+
+    <h2>You searched for <b>{{search}}</b><br></h2> {% if person %} {% for p in person %}
+    <div class="s" style="display:flex;justify-content:center;text-align:center;">
+        <div class="p" style="background-color: white;">
+            {% if p.cover %}
+                <img src="{{p.cover.url}}" class="img-fluid" style="width:400px; height:400px;">
+                {% else %}
+                <img src="{% static 'Profile/avatar.png' %}" class="img-fluid" style="width:400px; height:400px;" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{p.first_name}}</h5>
+        
+                    <a href="{{p.get_absolute_url}}" class="btn btn-primary">View</a>
+                </div></li>
+        </div>
+    </div>
+   
+
+        
+       
+    </div><br> {% endfor %} {% else %} No user of this <b>{{search}}</b> name.. {% endif %}
+</div>
+
+
+{% endblock %}

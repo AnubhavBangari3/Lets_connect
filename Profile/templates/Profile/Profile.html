@@ -1,0 +1,68 @@
+ {% extends 'Profile/layout.html' %}{% load static %} {% block title %} Profile{% endblock %} {% block body %}
+
+<!--profile-->
+{% if confirm %}
+<div class="alert alert-success" role="alert">
+    Profile updated
+</div>
+{% endif %}
+<div class="profile" \>
+    <div class="card-profile border-3">
+        <div class="pr">
+            {% if profile.cover %}
+            <img src="{{profile.cover.url}}" class="card-img-top img-fluid" alt="..." style="width:500px;
+        height: 400px; border-radius:20px;">
+
+        {% else %}
+                <img src="{% static 'Profile/avatar.png' %}" class="img-fluid" style="width: 300px;
+                height: 300px; border-radius:20px;">
+        {% endif %}
+        </div>
+        <hr>
+        <div class="card-body" style="border: 1px solid white;">
+            <h4 class="card-title">{{profile.user}}</h4>
+            <hr>
+            <br>
+            <h4><b>College:</b>{{profile.college}}</h4>
+            <hr>
+            <br>
+            <h4><b>Email:</b>{{profile.email}}</h4>
+            <hr>
+            <p><h4><b>About:</b>{{profile.about}}</h4></p>
+            <hr>
+            <br>
+            <h4><b>Connections:</b>{{profile.get_connection}}</h4>
+            <!-- Button trigger modal -->
+            <br>
+            <br>
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    UPDATE PROFILE
+</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" enctype="multipart/form-data">
+                    {% csrf_token %} {{form.as_p}}
+                    <div style="width:80%;margin:0 auto;"><button class="btn btn-primary">update</button></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

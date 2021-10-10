@@ -1,0 +1,66 @@
+{% extends 'Profile/layout.html' %}{% load static %} {% block title %} Inbox {% endblock %} {% block body %}
+<div class="inbox" style="position: relative;">
+  <div class="h" style="display:flex;justify-content:center;text-align:center;">
+    
+  </div>
+  
+    <div class="container my-2" style="width:100%;border-style:solid;border-width:1px;border-color:gainsboro;">
+      <div class="h" style="display:flex;justify-content:space-evenly;text-align:center;">
+        <a href="{% url 'inbox' %}" style="color:black"><h2><b> Received</b></h2></a>
+        <a href="{% url 'message_reply' %}" style="text-decoration:none;color:black"><h2> Sended</h2></a>
+        
+      </div>
+      
+       <hr>
+          
+          <div class="me-main" style="width:80%;margin:0 auto;">
+            <div  class="me" data-spy="scroll" data-target=".list-group" style="background-color: gainsboro;position: relative;height:500px;overflow-y: scroll;">
+              {% for d in directs %}
+              <div class="card border-info mb-3" style="width:100%;">
+                  <div class="card-header">
+                    <input type="hidden" class="sender_message" value="{{d.sender.user.id}}" name="pk_id">
+
+                    {% if d.sender.cover %}
+                      <img src="{{d.sender.cover.url}}" class="img-fluid" alt="..." style="width:50px;height:50px; border-radius:50%; ">
+                    {% else %}
+
+                    <img src="{% static 'Profile/avatar.png' %}" class="img-fluid"style="width:50px;height:50px; border-radius:50%; ">
+                    {% endif %}
+                      
+                       <a href="{% url 'message' d.id %}">View</a>
+                        {% if d.sender.user == request.user %}
+                          <b>{{d.sender.user}}
+                            TO: {{d.recepient.user}}
+
+                          </b><br> <b>{{d.created}}</b>
+                        {% else %}
+                        FROM-<b>   <a href="{% url 'reply' d.sender.user.id  %}">Reply</a>
+                        {{d.sender.user}}</b><br> <b>{{d.created}}</b>
+
+                        {% endif %}
+                </div>
+                        
+                  <div class="card-body" style="width:100%;">
+                   
+                  
+                      {{d.body}}
+                  
+                  </div>
+              </div>
+              {% endfor %}
+        </div>
+       
+          </div>
+       
+        
+        
+    
+
+</div>
+<script>
+  var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '.list-group'
+  })
+  
+</script>
+{% endblock %}

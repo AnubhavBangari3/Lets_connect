@@ -1,0 +1,64 @@
+{% extends 'Profile/layout.html' %}{% load static %} {% block title %} Reply {% endblock %} 
+
+{% block body %}
+<div class="container">
+  <div class="container my-2" style="width:100%;border-style:solid;border-width:1px;border-color:gainsboro;">
+    <div class="h" style="display:flex;justify-content:space-evenly;text-align:center;">
+      <a href="{% url 'inbox' %}" style="color:black;text-decoration:none;"><h2> Received</h2></a>
+      <a href="{% url 'message_reply' %}" style="color:black"><h2><b> Sended</b></h2></a>
+    </div>
+    
+     <hr>
+     <div class="me-main" style="width:80%;margin:0 auto;">
+      <div class="me my-2" data-bs-spy="scroll" data-bs-target="#list-example" style="position:relative;height:500px;overflow-y: scroll;background-color: gainsboro;">
+          
+        {% for d in directs %}
+          <div class="card border-info my-2">
+            
+            
+              <div id="list-example" class="border border-success">
+                <ul class="nav nav-tabs" role="tablist">
+                  
+                  <div class="card-header" style="background-color: rgba(0,0,0,.03);width:100%;">
+                    <img src="{{d.recepient.cover.url}}" class="img-fluid" alt="..." style="width:50px;height:50px; border-radius:50%; ">
+                       <b>To:{{d.recepient}}</b> <a href="{% url 'message' d.id %}">View</a>
+                      </b><br> <b>{{d.created}}</b>
+                     
+                  </div>
+                  <div class="card-body">
+                    
+                    
+                    {{d.body}}
+                    
+                  </div>
+                 
+                </ul>
+              </div>
+            
+          </div>
+          {% endfor %}
+            
+            <br>
+        
+      </div>
+    </div>
+    
+
+   
+    
+    
+
+  </div>
+
+<br>
+<script>
+
+  var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+    target: '#list-example'
+  })
+  
+</script>
+
+{% endblock %}
+
+

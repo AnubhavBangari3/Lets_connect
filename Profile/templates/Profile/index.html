@@ -1,0 +1,142 @@
+
+{% extends 'Profile/layout.html' %} {% load static %}{% block title %} HOME {% endblock %} {% block body %}
+<style>
+    @media (min-width:300px) and (max-width:800px){
+        .post_data{
+            width:100% !important;
+        }
+        .img-p img{
+            width:100% !important;
+            height:300px !important;
+        }
+    }
+</style>
+
+<div class="container-fluid my-2">
+   
+
+
+    <div class="le" style="background-color:#f1f3ee">
+            
+                <div class="card-body" style="display:flex;justify-content:center;text-align:center;flex-direction:column">
+                    <h2><b>{{profile.first_name}} {{profile.last_name}}</b></h2>
+                    <hr>
+                    {% if profile.cover %}
+                    <div style="display:flex;justify-content:center;text-align:center;">
+                        <img src=" {{profile.cover.url}}" class="img-fluid" style="width:400px;height:400px;">
+                    </div>
+                    {% else %}
+                    <img src="{% static 'Profile/avatar.png' %}" class="img-fluid" style="width:100px;height:100px;">
+
+                    {% endif %}
+                    <hr> <br>
+                    <a href="{{profile.get_absolute_url}}"><button class="btn btn-primary">View</button></a>
+                    <hr>
+                    <b> Connections:{{profile.get_connection}}</b>
+                </div>
+           
+
+        </div>
+        <div class="re bg-light" id="post_b">
+
+            
+                <div class="card-body my-4" style="display:flex;justify-content:center;text-align:center;flex-direction:column">
+                    <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %} {{form.as_p}}
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </form>
+                </div>
+            
+            
+     
+</div>
+        
+
+ 
+
+</div>
+<div class="post_data bg-light p-3 " style="width:80%;margin:0 auto;">
+
+    <div class="card" style="display:flex;justify-content:center;text-align:center; width:auto;height:auto;flex-wrap:wrap">
+        {% for post in posts %}
+        <div class="card-body" style="margin-top:10px;padding:0;">
+            <hr><b>Posts by :{{post.author}}</b>
+
+            <hr> {% if post.image is None %}
+            <p></p>
+            {% else %}
+            <div class="img-p" style="width:100%;">
+                <img src="{{post.image.url}}" class="img-fluid" style="width:500px;height:400px;">
+            </div> {% endif %}
+            <hr>
+            <div class="t my-2" style="display:flex;justify-content:center;text-align:center;flex-wrap:wrap;">
+              {{post.text}}
+            </div>
+            <hr>
+            <div class="buttons">
+                <form method="POST" action="{% url 'like' %}" id="like-form" >
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{post.id}}> {% if profile not in post.liked.all %}
+
+                    <button type="submit" data-action="like" id="like-btn" data-id="{{post.id}}" class="btn btn-primary" style=" padding-right:10px; ">Like</button> <br>Likes: {{post.total_likes}} {% else %}
+                    <button type="submit" data-action="unlike" id="like-btn" data-id="{{post.id}}" class="btn btn-danger" style=" padding-right:10px; ">Dislike</button>
+                    <br>Likes: {{post.total_likes}} {% endif %}
+
+                </form>
+            </div>
+
+            {% if post.author.pk == request.user.pk %}
+            <a style="padding-left:10px;" href="{% url 'update_post' post.pk %}">
+                <button class="btn btn-secondary">Update Post</button></a>
+
+            <a style="padding-left:10px;" href="{% url 'delete_post' post.pk %}">
+                <button class="btn btn-danger">Delete Post</button></a>
+            <hr> {% endif %}
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                      <b>Comments</b>
+                    </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+
+                            {% if post.comment_post.all %} {% for c in post.comment_post.all %} Comment by: <b>{{c.user}}</b> - {{c.body}}
+                            <br>
+                            <hr> {% endfor %} {% else %} No comment {% endif %}
+                            <br>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value="{{post.id}}" /> {{comment_form}}
+                <br>
+                <button name="comment">Comment</button>
+                <hr>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
+
+{% block scripts %}
+<!-- <script type="text/javascript">
+var btn=document.getElementById('like-btn');
+for (let i=0;i<btn.length;i++){
+    btn[i].addEventListener('click',function(){
+        var id=this.dataset.id;
+        var action=this.dataset.action;
+
+        console.log(id,action)
+    })
+}
+</script> -->
+
+{% endblock %}

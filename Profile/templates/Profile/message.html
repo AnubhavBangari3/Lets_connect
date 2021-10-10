@@ -1,0 +1,27 @@
+{% extends 'Profile/layout.html' %} {% block title %} Reply {% endblock %} 
+
+{% block body %}
+<div class="form-group my-4" style="width:80%;margin:0 auto;background-color: gainsboro;padding:0px 20px 0px 20px;">
+  <div class="card-header" style="display:flex;justify-content:space-between;">
+    <img src="{{profile.cover.url}}" class="img-fluid" alt="..." style="width:100px;height:100px; border-radius:50%; ">
+    <h6 class="my-4"><b>FROM:{{request.user}}</b></h6>
+    <h6 class="my-4"><b>Replying to:{{profile}}</b></h6>
+    <br> 
+  </div>
+    
+    <form method="post" action="{% url 'sendDirects' %}">
+      {% csrf_token %}
+        <input type="hidden" name="to_user" value="{{profile.id}}">
+        <textarea class="textarea" name="body" placeholder="Add a comment..." style="width:100%;"></textarea><br>
+        <div class="b" style="display:flex;justify-content:center">
+          <button class="btn btn-success">Send</button>
+          
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+
+{% endblock %}

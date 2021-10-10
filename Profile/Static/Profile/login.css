@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    ;
+}
+
+body {
+    background-image: url('https://d1csarkz8obe9u.cloudfront.net/posterpreviews/work-zoom-background-design-template-e53bfea393de7a73be272cc24c49ed23_screen.jpg?ts=1587229445');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.card-login {
+    margin-top: 100px;
+}

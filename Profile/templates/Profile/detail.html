@@ -1,0 +1,92 @@
+{% extends 'Profile/layout.html' %}{% load static %} {% block title %} Profile{% endblock %} {% block body %}
+
+<!--profile-->
+<style>
+    .images img:hover{
+        transform: scale(1.1);
+    }
+</style>
+
+
+<div class="profile" \>
+    <div class="card-profile">
+        {% if object.cover %}
+        <img src="{{object.cover.url}}" class="card-img-top img-fluid" alt="..." style="width: 500px;
+        height: 400px; border-radius:20px;">
+        {% else %}
+            <img src="{% static 'Profile/avatar.png' %}" class="img-fluid" style="width: 300px;
+            height: 300px; border-radius:20px;">
+
+        {% endif %}
+        <hr>
+        <div class="card-body" style="border: 1px solid white;">
+            <h4 class="card-title">{{object.user}}</h4>
+            <hr>
+            
+            <br>
+            <h4><b>College:</b>{{object.college}}</h4>
+            <hr>
+            <br>
+            <h4><b>Email:</b>{{object.email}}</h4>
+            <hr>
+            <p><b><h4>About</h4></b><h4>{{object.about}}</h4></p>
+            <hr>
+            <br>
+            <h4><b>Connections:</b>{{object.get_connection}}</h4>
+            <hr>
+            <!-- Button trigger modal -->
+            <br>
+            <br> {% if object.user not in sended_by and object.user not in received_by %}
+            <form method="post" action="{% url 'fr' %}">
+                {% csrf_token %}
+                <input type="hidden" name="profile_pk" value="{{object.pk}}" />
+                <button class="btn btn-success">Connect</button>
+
+            </form>
+            {% endif %} {% if object.user in received_by and request.user not in object.friends.all %}
+
+            <button type="button" class="btn btn-outline-dark">Waiting to connect</button> {% endif %}
+
+            <br><br> {% if request.user in object.friends.all %}
+            <form method="post" action="{% url 'remove_from_fr' %}">
+                {% csrf_token %}
+                <input type="hidden" name="profile_pk" value="{{object.pk}}" />
+                <button class="btn btn-outline-danger">Remove from connections</button>
+            </form>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<hr>
+<div class="activity">
+    <div class="heading my-2" style="display:flex;text-align:center;justify-content:center;">
+        <h2><b>POSTS</b></h2>
+    </div>
+<div class='H'  style="display:flex;text-align:center;justify-content:center">
+    
+    <div class="images" style="display:flex;flex-wrap:wrap;justify-content:center">
+        {% if object.get_posts %}
+        {% for i in object.get_posts %}
+            
+    
+               
+                    <img src="{{i.image.url}}" class="img-fluid mx-2 my-2" style="width:400px; height:200px;">
+        
+           
+    
+        
+        
+        {% endfor %}
+        {% else %}
+            <h2>NO POSTS</h2>
+
+        {% endif %}
+    </div>
+</div>
+
+</div>
+
+
+<!-- Modal -->
+\ {% endblock %}

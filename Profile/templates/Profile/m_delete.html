@@ -1,0 +1,59 @@
+{% extends 'Profile/layout.html' %} {% load static %} {% block title %} Inbox {% endblock %} 
+
+{% block body %}
+{{particular_user}}
+
+<div class="delete-message my-4" style="width:80%;margin:0 auto;padding:0px 20px 0px 20px;">
+    <div class="card-header" style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+
+        {% if message.sender.cover %}
+        <img src="{{message.sender.cover.url}}" class="img-fluid my-2" alt="..." style="width:50px;height:50px; border-radius:50%; ">
+
+        {% else %}
+            <img src="{% static 'Profile/avatar.png' %}" class="img-fluid"style="width:50px;height:50px; border-radius:50%; ">
+        {% endif %}
+        <h6 class="my-4"><b>FROM:{{message.sender}}</b></h6>
+        <h6 class="my-4"><b>To:{{message.recepient}}</b> </h6>
+        <br> 
+      </div>
+      <h4 class="card-subtitle mb-2 text-muted">{{message.created}}</h4>
+    <div class="card">
+        <div class="card-body">
+            {{message.body}}
+        </div>
+      </div>
+      <!-- Button trigger modal -->
+    <div class="b" style="display:flex;justify-content:center">
+        <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+            Delete
+        </button>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            Do you want to delete the message?
+            <form method="post" action="{% url 'message' message.id %}">
+                {% csrf_token %}
+                
+                <button class="btn btn-danger my-2">Delete Message</button>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            
+            </div>
+        </div>
+        </div>
+    </div>
+  
+</div>
+
+
+{% endblock %}

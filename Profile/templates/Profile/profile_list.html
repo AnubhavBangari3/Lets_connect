@@ -1,0 +1,66 @@
+{% extends 'Profile/layout.html' %}{% load static %} {% block title %}Networks{% endblock %} {% block body %}
+
+
+<div class="search my-4" style="display:flex;justify-content:center;">
+    <form class="d-flex" method="post" action="{% url 'search_name' %}" style="width:500px;">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="search" placeholder="Search" autocomplete>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+</div>
+<div class="profile-list mx-2" style="display:flex;justify-content:center; flex-wrap:wrap;"
+;">
+    
+
+    {% for profile in profiles %}
+    <div class="card mx-4" style="margin-top:5px; width:400px;" id="l">
+        <div class="row align-items-start">
+            <div class="col-6">
+                {% if profile.cover %}
+                <img src="{{profile.cover.url}}" class="img-fluid" style="width:auto; height:200px;" class="card-img-top" alt="...">
+                {% else %}
+                    <img src="{% static 'Profile/avatar.png' %}" class="img-fluid" style="width:auto; height:200px;" class="card-img-top" alt="...">
+                {% endif %}
+            </div>
+            <div class="col-6" style="display:flex;flex-wrap:wrap;">
+                <div class="card-body">
+
+                    <h5 class="card-title"><b>{{profile.first_name}}</b></h5>
+                    <h6><b>College:</b>{{profile.college}}</h6>
+                    <h6><b>Connections:</b>{{profile.get_connection}}</h6>
+                    <a href="{{profile.get_absolute_url}}" class="btn btn-primary">Profile</a> 
+                    <a class="btn btn-success my-2" href="{% url 'send_message' profile.id %}">Send Message</a>
+                    <br>
+                    
+                    <br> {% if profile.user not in sended_by and profile.user not in received_by %}
+                    <form method="post" action="{% url 'fr' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value="{{profile.pk}}" />
+                        <button class="btn btn-success">Connect</button>
+
+                    </form>
+                    {% endif %} {% if profile.user in received_by and request.user not in profile.friends.all %}
+
+                    <button type="button" class="btn btn-outline-dark">Waiting to connect</button> {% endif %}
+
+                    <br><br> {% if request.user in profile.friends.all %}
+                    <form method="post" action="{% url 'remove_from_fr' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_pk" value="{{profile.pk}}" />
+                        <button class="btn btn-outline-danger">Remove from connections</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

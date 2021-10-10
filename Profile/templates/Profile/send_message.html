@@ -1,0 +1,33 @@
+{% extends 'Profile/layout.html' %} {% block title %} Inbox {% endblock %} 
+
+{% block body %}
+
+
+<div class="delete-message my-4" style="width:80%;margin:0 auto; padding:0px 20px 0px 20px;">
+    <div class="card-header" style="display:flex;justify-content:space-between;">
+        <img src="{{rec.cover.url}}" class="img-fluid" alt="..." style="width:100px;height:100px; border-radius:50%; ">
+        <h6 class="my-4"><b>FROM:{{sen}}</b></h6>
+        <h6 class="my-4"><b>To:{{rec}}</b> </h6>
+        <br> 
+      </div>
+      <h4 class="card-subtitle mb-2 text-muted"></h4>
+    <div class="card">
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="card-body">
+                <textarea class="message_body" name="message_body" id="{{rec.id}}" style="width:100%;">
+                        
+    
+                </textarea>
+            </div>
+            <div class="b" style="display:flex;justify-content:center">
+                <button class="btn btn-success">Send</button>
+            </div>
+        </form>
+    </div>
+     
+  
+</div>
+
+
+{% endblock %}

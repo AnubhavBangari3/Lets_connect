@@ -1,0 +1,69 @@
+{% extends 'Profile/layout.html' %}
+ {% block title %} {{job}}{% endblock %} 
+ 
+ {% block body %}
+
+
+<div class="card-job my-2" style="width:80%;margin:0 auto;">
+    <div class="card-body" style="display:flex;text-align:center;justify-content:center;flex-direction:column;">
+      <h1><b>{{job.title}}</b></h1>
+      <br><br>
+      <h2 class="card-subtitle mb-2 text-muted">{{job.company}}</h2>
+      <br><br><hr>
+      <h5><b>Description:</b></h5>{{job.description}}
+      <hr><br>
+      <h5><b>Requirements:</b></h5>{{job.requirement}}<br><hr><br>
+      <div class="application form">
+          <!-- Button trigger modal -->
+          {% if b %}
+           
+            <div class="alert alert-dark" role="alert">
+                Already applied
+              </div>
+          {% else %}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Apply
+            </button>
+
+            {% endif %}
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">APPLICATION FORM</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="apply" style="width:100%;">
+                            <p><b> Why should we hire you?</b></p>
+                            {{form.about}}
+                            
+                        </div>
+                        <div class="resume">
+                            <p><b>Upload your resume.</b></p>
+                            {{form.resume}}
+                        </div>
+                        <br>
+                        
+                        <button>Submit</button>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+  
+        
+      </div>
+    </div>
+  </div>
+
+ {% endblock %}
