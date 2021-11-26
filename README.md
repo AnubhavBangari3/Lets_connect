@@ -16,3 +16,5 @@ Features-
 6)User can update and delete the posts only if they are the creator of the posts
 
 7)Users can search for other users.
+
+8)User can comment on other user post.
