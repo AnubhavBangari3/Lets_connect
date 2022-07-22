@@ -1,6 +1,8 @@
 # Lets_connect
 It’s a social media website focussed on connecting skilled people to their particular field of interest and helping different companies to find the right employee.
-TECHNOLOGY USED
+
+
+TECHNOLOGIES USED
 
 •	BACKEND – DJANGO 3.1.2
 
