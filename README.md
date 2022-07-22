@@ -1,5 +1,14 @@
 # Lets_connect
-It's a social media website made using Django.
+It’s a social media website focussed on connecting skilled people to their particular field of interest and helping different companies to find the right employee.
+TECHNOLOGY USED
+
+•	BACKEND – DJANGO 3.1.2
+
+
+•	FRONTEND – HTML5, CSS, BOOTSTRAP5
+
+
+•	DATABASE – Sqlite3 (Default database of Django)
 
 Features-
 
